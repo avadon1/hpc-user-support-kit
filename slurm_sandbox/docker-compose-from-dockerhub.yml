@@ -5,6 +5,7 @@ services:
     image: mariadb:10.10
     hostname: mysql
     container_name: mysql
+    privileged: true
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_DATABASE: slurm_acct_db
@@ -14,13 +15,11 @@ services:
       - var_lib_mysql:/var/lib/mysql
 
   slurmdbd:
-    build:
-      context: .
-      args:
-        SLURM_TAG: ${SLURM_TAG:-slurm-21-08-6-1}
+    image: cellularimagingcf/slurm-docker-cluster-base:latest
     command: ["slurmdbd"]
     container_name: slurmdbd
     hostname: slurmdbd
+    privileged: true
     volumes:
       - etc_munge:/etc/munge
       - etc_slurm:/etc/slurm
@@ -31,12 +30,7 @@ services:
       - mysql
 
   slurmctld:
-    # image: slurm-docker-cluster:${IMAGE_TAG:-21.08.6}
-    # Build this image from current folder
-    # Use a specific file: Dockerfile_slurmctld
-    build: 
-      context: ./
-      dockerfile: Dockerfile_slurmctld
+    image: cellularimagingcf/slurm-docker-cluster-slurmctld:latest
     command: ["slurmctld"]
     container_name: slurmctld
     privileged: true
@@ -47,6 +41,7 @@ services:
       - slurm_jobdir:/data
       - var_log_slurm:/var/log/slurm
       - home_cache:/home/slurm
+      - ./id_rsa.pub:/home/slurm/.ssh/authorized_keys
     expose:
       - "6817"
     ports:
@@ -55,10 +50,7 @@ services:
       - "slurmdbd"
 
   c1:
-    build:
-      context: .
-      args:
-        SLURM_TAG: ${SLURM_TAG:-slurm-21-08-6-1}
+    image: cellularimagingcf/slurm-docker-cluster-base:latest
     command: ["slurmd"]
     hostname: c1
     privileged: true
@@ -75,10 +67,7 @@ services:
       - "slurmctld"
 
   c2:
-    build:
-      context: .
-      args:
-        SLURM_TAG: ${SLURM_TAG:-slurm-21-08-6-1}
+    image: cellularimagingcf/slurm-docker-cluster-base:latest
     command: ["slurmd"]
     hostname: c2
     privileged: true
