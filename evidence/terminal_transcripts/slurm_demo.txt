@@ -1,0 +1,163 @@
+=== SLURM CPU demo transcript ===
+2026-02-02T00:15:55+01:00
+Repo: /home/hael/repos/hpc-user-support-kit
+Compose: /home/hael/repos/hpc-user-support-kit/slurm_sandbox/docker-compose.yml
+Client container: c1
+
+time="2026-02-02T00:15:56+01:00" level=warning msg="/home/hael/repos/hpc-user-support-kit/slurm_sandbox/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+time="2026-02-02T00:15:56+01:00" level=warning msg="No services to build"
+ Container mysql Running 
+ Container slurmdbd Running 
+ Container slurmctld Running 
+ Container c2 Running 
+ Container c1 Running 
+NAMES       STATUS       IMAGE
+c2          Up 7 hours   slurm_sandbox-c2
+c1          Up 7 hours   slurm_sandbox-c1
+slurmctld   Up 7 hours   slurm_sandbox-slurmctld
+slurmdbd    Up 7 hours   slurm_sandbox-slurmdbd
+mysql       Up 8 hours   mariadb:10.10
+
+=== SLURM commands available? ===
+/usr/bin/sbatch
+/usr/bin/squeue
+/usr/bin/sacct
+PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
+test*        up   infinite      2   idle c[1-2]
+
+=== Stage demo into /data/cpu_demo (clean) ===
+total 24
+drwxr-xr-x 3 root root 4096 Feb  1 23:15 .
+drwxrwxrwx 3 root root 4096 Feb  1 23:15 ..
+drwxr-xr-x 2 1000 1000 4096 Feb  1 20:08 __pycache__
+-rw-r--r-- 1 1000 1000    0 Feb  1 10:37 expected_output.txt
+-rw-r--r-- 1 1000 1000   28 Feb  1 21:18 requirements.txt
+-rw-r--r-- 1 1000 1000 1939 Feb  1 19:22 run.py
+-rw-r--r-- 1 1000 1000  762 Feb  1 23:15 submit.slurm
+
+=== Submit job ===
+Submitted batch job 4
+JOBID=4
+
+=== squeue (poll until completion) ===
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+                 4      test cpu_demo     root  R       0:00      1 c1
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+                 4      test cpu_demo     root  R       0:03      1 c1
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+                 4      test cpu_demo     root  R       0:05      1 c1
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+                 4      test cpu_demo     root  R       0:07      1 c1
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+                 4      test cpu_demo     root  R       0:10      1 c1
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+                 4      test cpu_demo     root  R       0:12      1 c1
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+                 4      test cpu_demo     root  R       0:15      1 c1
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+                 4      test cpu_demo     root  R       0:17      1 c1
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+                 4      test cpu_demo     root  R       0:19      1 c1
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+                 4      test cpu_demo     root  R       0:22      1 c1
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+                 4      test cpu_demo     root  R       0:24      1 c1
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+Job 4 no longer in squeue.
+
+=== sacct ===
+JobID|JobName|Partition|AllocCPUS|Elapsed|State|ExitCode
+4|cpu_demo_sklearn|test|1|00:00:25|COMPLETED|0:0
+4.batch|batch||1|00:00:25|COMPLETED|0:0
+
+=== Job output: /data/cpu_demo/slurm-4.out ===
+-rw-r--r-- 1 root root 3470 Feb  1 23:16 /data/cpu_demo/slurm-4.out
+=== Job metadata ===
+2026-02-01T23:15:57+00:00
+c1
+SLURM_JOB_ID=4
+
+=== Python ===
+Python 3.9.25
+pip 21.3.1 from /usr/lib/python3.9/site-packages/pip (python 3.9)
+
+=== Create/activate venv ===
+Requirement already satisfied: pip in ./.venv/lib/python3.9/site-packages (21.3.1)
+Collecting pip
+  Using cached pip-26.0-py3-none-any.whl (1.8 MB)
+Requirement already satisfied: setuptools in ./.venv/lib/python3.9/site-packages (53.0.0)
+Collecting setuptools
+  Using cached setuptools-80.10.2-py3-none-any.whl (1.1 MB)
+Collecting wheel
+  Using cached wheel-0.46.3-py3-none-any.whl (30 kB)
+Collecting packaging>=24.0
+  Using cached packaging-26.0-py3-none-any.whl (74 kB)
+Installing collected packages: packaging, wheel, setuptools, pip
+  Attempting uninstall: setuptools
+    Found existing installation: setuptools 53.0.0
+    Uninstalling setuptools-53.0.0:
+      Successfully uninstalled setuptools-53.0.0
+  Attempting uninstall: pip
+    Found existing installation: pip 21.3.1
+    Uninstalling pip-21.3.1:
+      Successfully uninstalled pip-21.3.1
+Successfully installed packaging-26.0 pip-26.0 setuptools-80.10.2 wheel-0.46.3
+=== Install requirements ===
+Collecting scikit-learn==1.4.2 (from -r requirements.txt (line 1))
+  Downloading scikit_learn-1.4.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (11 kB)
+Collecting numpy<2 (from -r requirements.txt (line 2))
+  Downloading numpy-1.26.4-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (61 kB)
+Collecting scipy>=1.6.0 (from scikit-learn==1.4.2->-r requirements.txt (line 1))
+  Downloading scipy-1.13.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (60 kB)
+Collecting joblib>=1.2.0 (from scikit-learn==1.4.2->-r requirements.txt (line 1))
+  Downloading joblib-1.5.3-py3-none-any.whl.metadata (5.5 kB)
+Collecting threadpoolctl>=2.0.0 (from scikit-learn==1.4.2->-r requirements.txt (line 1))
+  Downloading threadpoolctl-3.6.0-py3-none-any.whl.metadata (13 kB)
+Downloading scikit_learn-1.4.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (12.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.2/12.2 MB 7.5 MB/s  0:00:01
+Downloading numpy-1.26.4-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (18.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 18.2/18.2 MB 8.3 MB/s  0:00:02
+Downloading joblib-1.5.3-py3-none-any.whl (309 kB)
+Downloading scipy-1.13.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (38.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 38.6/38.6 MB 8.9 MB/s  0:00:04
+Downloading threadpoolctl-3.6.0-py3-none-any.whl (18 kB)
+Installing collected packages: threadpoolctl, numpy, joblib, scipy, scikit-learn
+
+Successfully installed joblib-1.5.3 numpy-1.26.4 scikit-learn-1.4.2 scipy-1.13.1 threadpoolctl-3.6.0
+=== Run demo ===
+CPU demo (sklearn) completed
+accuracy=0.9737
+wrote_metrics=output/metrics.json
+=== metrics.json ===
+{
+  "accuracy": 0.9736842105263158,
+  "dataset": "iris",
+  "n_classes": 3,
+  "n_features": 4,
+  "n_samples": 150,
+  "numpy": "1.26.4",
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.34",
+  "python": "3.9.25",
+  "python_executable": "/data/cpu_demo/.venv/bin/python",
+  "seed": 0,
+  "sklearn": "1.4.2",
+  "slurm_job_id": "4"
+}
+
+=== Metrics artifact ===
+{
+  "accuracy": 0.9736842105263158,
+  "dataset": "iris",
+  "n_classes": 3,
+  "n_features": 4,
+  "n_samples": 150,
+  "numpy": "1.26.4",
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.34",
+  "python": "3.9.25",
+  "python_executable": "/data/cpu_demo/.venv/bin/python",
+  "seed": 0,
+  "sklearn": "1.4.2",
+  "slurm_job_id": "4"
+}
+
+Transcript saved to: /home/hael/repos/hpc-user-support-kit/evidence/terminal_transcripts/slurm_demo.txt
