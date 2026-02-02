@@ -1,0 +1,99 @@
+=== Env debug demo transcript ===
+2026-02-02T16:50:46+01:00
+Repo: /home/hael/repos/hpc-user-support-kit
+
+Requirement already satisfied: pip in ./.venv_envdebug/lib/python3.10/site-packages (22.0.2)
+Collecting pip
+  Downloading pip-26.0-py3-none-any.whl (1.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 6.9 MB/s eta 0:00:00
+Installing collected packages: pip
+  Attempting uninstall: pip
+    Found existing installation: pip 22.0.2
+    Uninstalling pip-22.0.2:
+      Successfully uninstalled pip-22.0.2
+Successfully installed pip-26.0
+=== 1) check_environment (expected FAIL: missing imports) ===
+=== check_environment.py ===
+timestamp_utc=2026-02-02T15:50:51.929844Z
+cwd=/home/hael/repos/hpc-user-support-kit
+user=hael
+hostname=DESKTOP-MIDAVT8
+python_executable=/home/hael/repos/hpc-user-support-kit/.venv_envdebug/bin/python3
+python_version=3.10.12
+platform=Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.35
+VIRTUAL_ENV=/home/hael/repos/hpc-user-support-kit/.venv_envdebug
+CONDA_PREFIX=
+SLURM_JOB_ID=
+
+=== Import checks ===
+FAIL required: import numpy: ModuleNotFoundError: No module named 'numpy'
+FAIL required: import sklearn: ModuleNotFoundError: No module named 'sklearn'
+WARN optional: import pandas: ModuleNotFoundError: No module named 'pandas'
+INFO optional: torch not installed; skipping CUDA check
+
+=== Result ===
+RESULT=FAIL (missing required imports)
+hint=activate correct env and/or install requirements
+check_environment_exit=1
+=== 2) collect_debug_bundle ===
+Wrote debug bundle: /home/hael/repos/hpc-user-support-kit/evidence/debug_bundles/debug_bundle_20260202T155051Z.tar.gz
+Tip: bundles are ignored by git; commit only the transcript under evidence/terminal_transcripts/
+=== 3) fix: install requirements ===
+Collecting pandas
+  Downloading pandas-2.3.3-cp310-cp310-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (91 kB)
+Collecting scikit-learn==1.4.2 (from -r demos/cpu_demo/requirements.txt (line 1))
+  Downloading scikit_learn-1.4.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (11 kB)
+Collecting numpy<2 (from -r demos/cpu_demo/requirements.txt (line 2))
+  Downloading numpy-1.26.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (61 kB)
+Collecting scipy>=1.6.0 (from scikit-learn==1.4.2->-r demos/cpu_demo/requirements.txt (line 1))
+  Downloading scipy-1.15.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (61 kB)
+Collecting joblib>=1.2.0 (from scikit-learn==1.4.2->-r demos/cpu_demo/requirements.txt (line 1))
+  Downloading joblib-1.5.3-py3-none-any.whl.metadata (5.5 kB)
+Collecting threadpoolctl>=2.0.0 (from scikit-learn==1.4.2->-r demos/cpu_demo/requirements.txt (line 1))
+  Downloading threadpoolctl-3.6.0-py3-none-any.whl.metadata (13 kB)
+Collecting python-dateutil>=2.8.2 (from pandas)
+  Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+Collecting pytz>=2020.1 (from pandas)
+  Downloading pytz-2025.2-py2.py3-none-any.whl.metadata (22 kB)
+Collecting tzdata>=2022.7 (from pandas)
+  Downloading tzdata-2025.3-py2.py3-none-any.whl.metadata (1.4 kB)
+Collecting six>=1.5 (from python-dateutil>=2.8.2->pandas)
+  Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+Downloading scikit_learn-1.4.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (12.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.1/12.1 MB 7.9 MB/s  0:00:01
+Downloading numpy-1.26.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (18.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 18.2/18.2 MB 8.1 MB/s  0:00:02
+Downloading pandas-2.3.3-cp310-cp310-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (12.8 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.8/12.8 MB 7.4 MB/s  0:00:01
+Downloading joblib-1.5.3-py3-none-any.whl (309 kB)
+Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+Downloading pytz-2025.2-py2.py3-none-any.whl (509 kB)
+Downloading scipy-1.15.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (37.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 37.7/37.7 MB 7.0 MB/s  0:00:05
+Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+Downloading threadpoolctl-3.6.0-py3-none-any.whl (18 kB)
+Downloading tzdata-2025.3-py2.py3-none-any.whl (348 kB)
+Installing collected packages: pytz, tzdata, threadpoolctl, six, numpy, joblib, scipy, python-dateutil, scikit-learn, pandas
+
+Successfully installed joblib-1.5.3 numpy-1.26.4 pandas-2.3.3 python-dateutil-2.9.0.post0 pytz-2025.2 scikit-learn-1.4.2 scipy-1.15.3 six-1.17.0 threadpoolctl-3.6.0 tzdata-2025.3
+=== 4) check_environment (expected PASS) ===
+=== check_environment.py ===
+timestamp_utc=2026-02-02T15:51:17.152973Z
+cwd=/home/hael/repos/hpc-user-support-kit
+user=hael
+hostname=DESKTOP-MIDAVT8
+python_executable=/home/hael/repos/hpc-user-support-kit/.venv_envdebug/bin/python3
+python_version=3.10.12
+platform=Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.35
+VIRTUAL_ENV=/home/hael/repos/hpc-user-support-kit/.venv_envdebug
+CONDA_PREFIX=
+SLURM_JOB_ID=
+
+=== Import checks ===
+OK required: import numpy (version=1.26.4)
+OK required: import sklearn (version=1.4.2)
+OK optional: import pandas (version=2.3.3)
+INFO optional: torch not installed; skipping CUDA check
+
+=== Result ===
+RESULT=PASS (required imports available)

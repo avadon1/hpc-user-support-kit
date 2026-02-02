@@ -1,0 +1,10 @@
+
+# Python
+__pycache__/
+*.py[cod]
+.venv*/
+venv/
+
+# Debug bundles: do NOT commit (keep .gitkeep)
+evidence/debug_bundles/*
+!evidence/debug_bundles/.gitkeep
