@@ -163,6 +163,7 @@ scontrol show job <jobid> | sed -n '1,200p'
 - Reason contains **Priority**
   - Normal queueing; suggest waiting or requesting fewer resources (shorter time, fewer CPUs, less mem).
 - Reason contains **Resources**
+  - Optional: If available, confirm partition limits and node “shapes” with `sinfo` (or consult site docs) — see `docs/slurm_basics.md#cluster-info-optional-partitions--node-shapes`.
   - Ask them to reduce requested resources or pick an appropriate partition (site policy).
 - Reason contains **QOSMaxWallDurationPerJobLimit**
   - Reduce `#SBATCH --time` to comply with QoS/partition limit.

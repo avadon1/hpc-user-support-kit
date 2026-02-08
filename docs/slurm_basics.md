@@ -36,6 +36,7 @@ sacct --format=JobID,JobName,State,ExitCode | tail -n 30
 > Troubleshooting: If you run `sacct` on your WSL host you may see `Command 'sacct' not found` — that just means you’re outside the sandbox (run it via `docker compose exec slurmctld ...`).
 
 ---
+
 ## Quick command cheat sheet
 
 Submit:
@@ -73,6 +74,35 @@ Cancel:
 ```bash
 scancel <jobid>
 ```
+
+---
+
+## Cluster info (optional): partitions + node shapes
+
+When a job is pending with `Reason=Resources`, it may be requesting a combination of CPU/memory/time that is hard to place (or doesn’t fit any node) in the selected partition.
+
+List partitions and their availability/time limits:
+
+```bash 
+sinfo -s
+```
+
+Inspect one partition’s policy/limits:
+
+```bash
+scontrol show partition <partition> | sed -n '1,120p'
+```
+
+See a quick summary of node “shapes” (CPUs + memory) in a partition:
+
+```bash
+sinfo -p <partition> -N -o "%N %c %m %t"
+```
+
+Notes:
+
+- `%c` = CPUs per node, `%m` = memory per node (usually MB), `%t` = node state
+- If you don’t have access to these commands, use site docs or ask support: “What are the node sizes and limits in partition `<partition>`?”
 
 ---
 
