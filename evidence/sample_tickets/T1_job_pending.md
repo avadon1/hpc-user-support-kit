@@ -33,36 +33,41 @@ sacct -j 4471 --format=JobID,State,ExitCode,Elapsed,AllocCPUS,ReqMem%12,MaxRSS%1
 ### User Response_1
 
 - `squeue` output:
-    - **Example output (illustrative)**
-    	-  ```             4471       normal  PENDING       0:00      1 Resources```
-- `scontrol show job` snippet:
-    - **Example output (illustrative)**
-    	- JobId=4471 JobName=train
-          UserId=youruser(1001) GroupId=yourgroup(1001) MCS_label=N/A
-          Priority=12345 Nice=0 Account=research QOS=normal
-          JobState=PENDING Reason=Resources Dependency=(null)
-          Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
-          SubmitTime=2026-02-08T09:12:34 EligibleTime=2026-02-08T09:12:34
-          StartTime=Unknown EndTime=Unknown Deadline=N/A
-          Partition=normal AllocNode:Sid=login01:3120
-          ReqNodeList=(null) ExcNodeList=(null)
-          NodeList=(null)
-          NumNodes=1-1 NumCPUs=64 NumTasks=1 CPUs/Task=64 ReqB:S:C:T=0:0:*:*
-          TRES=normal=64,mem=256G,node=1,billing=64
-          Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
-          MinCPUsNode=64 MinMemoryNode=256G MinTmpDiskNode=0
-          Features=(null) DelayBoot=00:00:00
-          OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
-          Command=/home/youruser/project/train.slurm
-          WorkDir=/home/youruser/project
-          StdOut=/home/youruser/project/slurm-48219.out
-          StdErr=/home/youruser/project/slurm-48219.err
-- `sacct` output:
-    - **Example output (illustrative)**
-		-        JobID	State	ExitCode	Elapsed		AllocCPUS	ReqMem	MaxRSS
-			------------ ---------- -------- ---------- --------- ------------ ------------
-				4471		PENDING		0:0	00:00:00	64		256Gn		0K
+- **Example output (illustrative)**
+-  ```             4471       normal  PENDING       0:00      1 Resources```
 
+- `scontrol show job` snippet:
+- **Example output (illustrative)**
+```bash
+JobId=4471 JobName=train
+UserId=youruser(1001) GroupId=yourgroup(1001) MCS_label=N/A
+Priority=12345 Nice=0 Account=research QOS=normal
+JobState=PENDING Reason=Resources Dependency=(null)
+Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+SubmitTime=2026-02-08T09:12:34 EligibleTime=2026-02-08T09:12:34
+StartTime=Unknown EndTime=Unknown Deadline=N/A
+Partition=normal AllocNode:Sid=login01:3120
+ReqNodeList=(null) ExcNodeList=(null)
+NodeList=(null)
+NumNodes=1-1 NumCPUs=64 NumTasks=1 CPUs/Task=64 ReqB:S:C:T=0:0:*:*
+TRES=normal=64,mem=256G,node=1,billing=64
+Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+MinCPUsNode=64 MinMemoryNode=256G MinTmpDiskNode=0
+Features=(null) DelayBoot=00:00:00
+OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null)
+Command=/home/youruser/project/train.slurm
+WorkDir=/home/youruser/project
+StdOut=/home/youruser/project/slurm-48219.out
+StdErr=/home/youruser/project/slurm-48219.err
+```
+
+- `sacct` output:
+- **Example output (illustrative)**
+```bash
+  JobID      State ExitCode    Elapsed AllocCPUS       ReqMem       MaxRSS
+------------ ---------- -------- ---------- --------- ------------ ------------
+4471        PENDING    0:0      00:00:00         64       256Gn          0K
+```
 
 ## Findings
 

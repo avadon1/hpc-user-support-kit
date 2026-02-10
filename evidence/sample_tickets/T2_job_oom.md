@@ -11,35 +11,35 @@
 ## Clarifying questions
 
 - Could you please copy/paste your SLURM job script  (`submit.slurm`)
-	- **Example output (illustrative)**
-		- ```bash
-		  #!/usr/bin/env bash
-		  #SBATCH --job-name=img_train
-		  #SBATCH --partition=normal
-		  #SBATCH --time=02:00:00
-		  #SBATCH --nodes=1
-		  #SBATCH --ntasks=1
-		  #SBATCH --cpus-per-task=4
-		  #SBATCH --mem=8G
-		  #SBATCH --output=slurm-%j.out
-		  #SBATCH --error=slurm-%j.err
-		  set -euo pipefail
-		  echo "HOST=$(hostname) START=$(date)"
-		  python -V
-		  python train.py \
-			  --data /project/myproj/datasets/images/ \
-			  --batch-size 64 \
-			  --num-workers 8 \
-			  --cache-in-ram 1
-		  echo "END=$(date)"
-		  ```
+- **Example output (illustrative)**
+```bash
+#!/usr/bin/env bash
+#SBATCH --job-name=img_train
+#SBATCH --partition=normal
+#SBATCH --time=02:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=8G
+#SBATCH --output=slurm-%j.out
+#SBATCH --error=slurm-%j.err
+set -euo pipefail
+echo "HOST=$(hostname) START=$(date)"
+python -V
+python train.py \
+  --data /project/myproj/datasets/images/ \
+  --batch-size 64 \
+  --num-workers 8 \
+  --cache-in-ram 1
+echo "END=$(date)"
+```
 
 - How does your code load the data - stream from disk, or cache/preload in RAM? Which framework/library are you using?
-	- **Example output (illustrative)**
-		- Framework: PyTorch
-		- Loader: custom `Dataset` + `torch.utils.data.DataLoader`
-		- We cache decoded images in RAM (a Python dict) so augmentation is faster on later epochs
-		- Augmentation: random crop/flip/color jitter on the fly
+- **Example output (illustrative)**
+	- Framework: PyTorch
+	- Loader: custom `Dataset` + `torch.utils.data.DataLoader`
+	- We cache decoded images in RAM (a Python dict) so augmentation is faster on later epochs
+	- Augmentation: random crop/flip/color jitter on the fly
 
 ## Diagnostics
 
@@ -55,30 +55,31 @@ seff 5523 || true
 
 ### User Response_1
 
-- `sacct -j 5523 --format=JobID,State,ExitCode,Elapsed,AllocCPUS,ReqMem%12,MaxRSS%12` output
-	- **Example output (illustrative)**
-		- JobID      State ExitCode    Elapsed AllocCPUS       ReqMem       MaxRSS
-		------------ ---------- -------- ---------- --------- ------------ ------------
-		5523         OUT_OF_MEMORY     0:9   00:40:17         4         8Gn      8190Mn
+- `sacct -j 5523 --format=JobID,State,ExitCode,Elapsed,AllocCPUS,ReqMem%12,MaxRSS%12` output:
+- **Example output (illustrative)**
+```bash
+JobID      State ExitCode    Elapsed AllocCPUS       ReqMem       MaxRSS
+------------ ---------- -------- ---------- --------- ------------ ------------
+5523         OUT_OF_MEMORY     0:9   00:40:17         4         8Gn      8190Mn
+5523.batch   OUT_OF_MEMORY     0:9   00:40:17         4         8Gn      8190Mn
+5523.extern  COMPLETED         0:0   00:40:17         4         8Gn        18Mn
+```
 
-		5523.batch   OUT_OF_MEMORY     0:9   00:40:17         4         8Gn      8190Mn
-
-		5523.extern  COMPLETED         0:0   00:40:17         4         8Gn        18Mn
 - `seff 5523 || true` output
-	- **Example output (illustrative)**
-		- ```bash
-		  Job ID: 5523
-		  Cluster: example
-		  User/Group: rstudent(students)
-		  State: OUT_OF_MEMORY (exit code 0:9)
-		  Nodes: 1
-		  Cores per node: 4
-		  CPU Utilized: 00:32:11
-		  CPU Efficiency: 20.0% of 02:40:08 core-walltime
-		  Job Wall-clock time: 00:40:17
-		  Memory Utilized: 7.99 GB
-		  Memory Efficiency: 99.9% of 8.00 GB
-		  ```
+- **Example output (illustrative)**
+```bash
+Job ID: 5523
+  Cluster: example
+  User/Group: rstudent(students)
+  State: OUT_OF_MEMORY (exit code 0:9)
+  Nodes: 1
+  Cores per node: 4
+  CPU Utilized: 00:32:11
+  CPU Efficiency: 20.0% of 02:40:08 core-walltime
+  Job Wall-clock time: 00:40:17
+  Memory Utilized: 7.99 GB
+  Memory Efficiency: 99.9% of 8.00 GB
+```
 
 ## Findings
 
